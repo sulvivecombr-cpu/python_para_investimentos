@@ -16,7 +16,7 @@ services:
       [
         "sh",
         "-ec",
-        "pip install --quiet yfinance pandas-datareader plotly investpy pyfolio bt && exec jupyter lab --ip=0.0.0.0 --port=8888 --ServerApp.token='' --ServerApp.password='' --ServerApp.allow_origin='*' --ServerApp.allow_remote_access=True --ServerApp.tornado_settings='{\"headers\":{\"Content-Security-Policy\":\"*\"}}' --ServerApp.disable_check_xsrf=True --ServerApp.allow_root=True",
+        "pip install --no-cache-dir --quiet yfinance pandas-datareader plotly pyfolio bt && exec jupyter lab --ip=0.0.0.0 --port=8888 --IdentityProvider.token='' --ServerApp.allow_origin='*' --ServerApp.allow_remote_access=True --ServerApp.tornado_settings='{\"headers\":{\"Content-Security-Policy\":\"*\"}}' --ServerApp.disable_check_xsrf=True --ServerApp.allow_root=True",
       ]
     healthcheck:
       test:
