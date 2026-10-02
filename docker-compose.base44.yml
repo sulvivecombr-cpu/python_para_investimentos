@@ -1,0 +1,29 @@
+services:
+  jupyter:
+    image: jupyter/scipy-notebook:latest
+    container_name: base44-jupyter
+    working_dir: /home/jovyan/work
+    volumes:
+      - ./:/home/jovyan/work
+    ports:
+      - "3000:8888"
+    environment:
+      - JUPYTER_TOKEN=
+      - BASE44_PUBLIC_HOST_SUFFIX=${BASE44_PUBLIC_HOST_SUFFIX:-}
+    command:
+      [
+        "sh",
+        "-ec",
+        "pip install --quiet yfinance pandas-datareader plotly investpy pyfolio bt && exec jupyter lab --ip=0.0.0.0 --port=8888 --ServerApp.token='' --ServerApp.password='' --ServerApp.allow_origin='*' --ServerApp.allow_remote_access=True --ServerApp.tornado_settings='{\"headers\":{\"Content-Security-Policy\":\"*\"}}' --ServerApp.disable_check_xsrf=True --ServerApp.allow_root=True",
+      ]
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -fsS http://localhost:8888/api/status || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: on-failure
